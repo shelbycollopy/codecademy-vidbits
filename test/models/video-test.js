@@ -19,7 +19,7 @@ describe('Model: Video', () => {
     it('is required', () => {
       const video = new Video({});
       video.validateSync();
-    //  assert.equal(video.errors.title.message, 'Path `title` is required.');
+      assert.equal(video.errors.title.message, 'Title is required.');
     });
   });
 
@@ -40,7 +40,7 @@ describe('Model: Video', () => {
     it('is required', () => {
       const video = new Video({});
       video.validateSync();
-      //assert.equal(video.errors.url.message, 'Path `url` is required.');
+      assert.equal(video.errors.url.message, 'URL is required.');
     });
   });
 

@@ -1,19 +1,32 @@
 const router = require('express').Router();
 const Video = require('../models/video');
 
+router.get('/videos', async (req, res, next) => {
+  const videos = await Video.find({});
+  res.render('videos/index', { videos });
+});
+
+router.get('/videos/create', async (req, res, next) => {
+  res.render('videos/create');
+});
+
+router.get('/videos/:id', async (req, res, next) => {
+  const video = await Video.findById(req.params.id);
+  res.render('videos/show', { video });
+});
 
 router.post('/videos', async (req, res, next) => {
 
   const { title, description, url } = req.body;
-  const newVideo = new Video({ title, description, url })
 
+  const newVideo = new Video({ title, description, url })
   newVideo.validateSync();
 
   if (newVideo.errors) {
-    res.status(400).render('error', { newVideo: newVideo })
+    res.status(400).render('videos/create', { newVideo });
   } else {
-    const videoCreated =  await Video.create(newVideo);
-    res.status(302).render('videos/show', { videoCreated: videoCreated });
+    const video = await Video.create(newVideo);
+    res.status(302).redirect(`${video._id}`)
   }
 
 });

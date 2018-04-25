@@ -1,24 +1,22 @@
 const {assert} = require('chai');
+const {buildVideoObject} = require('../test-utils');
 
-describe('User visits create page', () => {
-  describe('adds a new video', () => {
-    it('is rendered', () => {
+describe('User visiting', () => {
+  describe('new video page', () => {
+    it('can save new video', () => {
+      // Setup
+      const videoToCreate = buildVideoObject();
 
-      const videoToAdd = {
-        title: 'Test video title',
-        description: 'Test video description',
-        url: 'www.url.com'
-      };
+      // Exercise
+      browser.url('/videos/create');
+      browser.setValue('#url-input', videoToCreate.url);
+      browser.setValue('#title-input', videoToCreate.title);
+      browser.setValue('#description-input', videoToCreate.description);
+      browser.submitForm('#addVideo');
 
-      browser.url('/videos/create.html');
-      browser.setValue('#title-input', videoToAdd.title);
-      browser.setValue('#description-input', videoToAdd.description);
-      browser.setValue('#url-input')
-      browser.click('#submit-button');
-      assert.include(browser.getText('body'), videoToAdd.title);
-      assert.include(browser.getText('body'), videoToAdd.description);
-      assert.include(browser.getText('body'), videoToAdd.url);
-
+      // Verify
+      assert.include(browser.getText('body'), videoToCreate.title);
+    //assert.include(browser.getAttribute('body img', 'src'), itemToCreate.imageUrl);
     });
   });
 });
