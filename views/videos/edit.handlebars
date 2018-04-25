@@ -2,13 +2,6 @@
   <h1>Edit a video<h1>
   <form method="post" action="/updates" id="updateVideo">
 
-  fdfd
-{{video}}
-dfd
-    <div>
-      <a href="/videos/{{video._id}}/edit" id="edit" class="input-button">Edit</a>
-    </div>
-
     <label for="url">Url</label>
     <input name="url" id="url-input" value="{{video.url}}"/>
     {{#with video.errors.url as |error|}}

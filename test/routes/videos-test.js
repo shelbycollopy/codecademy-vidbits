@@ -18,7 +18,7 @@ describe('Server: GET', () => {
 
   afterEach(disconnectDatabase);
 
-  describe('GET /videos', () => {
+  describe('/videos', () => {
     it('renders a video with a title', async () => {
       const video = await seedItemToDatabase();
 
@@ -41,7 +41,7 @@ describe('Server: GET', () => {
     });
   });
 
-  describe('GET /videos/:id/edit', () => {
+  describe('/videos/:id/edit', () => {
     it('renders a form to edit video', async () => {
 
       const video = await seedItemToDatabase();
@@ -61,7 +61,7 @@ describe('Server: POST', () => {
 
   afterEach(disconnectDatabase);
 
-  describe('POST /videos', () => {
+  describe('/videos', () => {
 
     it('returns a 302 status code', async () => {
 
@@ -229,7 +229,7 @@ describe('Server: POST', () => {
     });
   });
 
-  describe('POST /videos/:id/delete', () => {
+  describe('/videos/:id/delete', () => {
 
     it('removes the record', async () => {
       const video = await seedItemToDatabase();
@@ -245,6 +245,18 @@ describe('Server: POST', () => {
              .get(`/videos/${video._id}/delete`);
 
       assert.equal(response.headers.location, '/');
+    });
+  });
+
+  describe('/videos/:id/updates', () => {
+    it('it updates the record', async () => {
+      const response = await request(app)
+        .post('/updates')
+        .type('form')
+        .send({ title: 'Updated Video Title' });
+
+      assert.include(parseTextFromHTML(response.text, '.video-title'), 'Updated Video Title');
+
     });
   });
 
