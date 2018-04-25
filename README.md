@@ -1,7 +1,7 @@
 # codecademy-vidbits
 
 ### NOTE 
-Edit and delete tests/functionality are still in progress. I am missing something.  
+Edit and delete tests/functionality are still in progress. I am missing something... and I think it's sleep. 
 
 ### Install Dependencies
 ``` npm install ```
