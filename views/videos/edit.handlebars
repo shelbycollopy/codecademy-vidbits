@@ -3,20 +3,20 @@
   <form method="post" action="/updates" id="updateVideo">
 
     <label for="url">Url</label>
-    <input name="url" id="url-input" value="{{video.url}}"/>
-    {{#with video.errors.url as |error|}}
+    <input name="url" id="url-input" value="{{newVideo.url}}"/>
+    {{#with newVideo.errors.url as |error|}}
     <div class="error">{{error.message}}</div>
     {{/with}}
 
     <label for="title">Title</label>
-    <input name="title" id="title-input" value="{{video.title}}" />
-    {{#with video.errors.title as |error|}}
+    <input name="title" id="title-input" value="{{newVideo.title}}" />
+    {{#with newVideo.errors.title as |error|}}
     <div class="error">{{error.message}}</div>
     {{/with}}
 
     <label for="description">Description</label>
-    <textarea name="description" id="description-input" class="video-description">{{video.description}}</textarea>
-    {{#with video.errors.description as |error|}}
+    <textarea name="description" id="description-input" class="video-description">{{newVideo.description}}</textarea>
+    {{#with newVideo.errors.description as |error|}}
     <div class="error">{{error.message}}</div>
     {{/with}}
 

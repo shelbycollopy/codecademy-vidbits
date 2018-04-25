@@ -250,13 +250,84 @@ describe('Server: POST', () => {
 
   describe('/videos/:id/updates', () => {
     it('it updates the record', async () => {
+
+      const video = await seedItemToDatabase();
       const response = await request(app)
         .post('/updates')
         .type('form')
         .send({ title: 'Updated Video Title' });
 
+
       assert.include(parseTextFromHTML(response.text, '.video-title'), 'Updated Video Title');
 
+    });
+
+    it('redirects to the show page', async () => {
+
+      const video = await seedItemToDatabase();
+      const response = await request(app)
+        .post('/updates')
+        .type('form')
+        .send({ title: 'Updated Video Title' });
+
+      assert.equal(response.status, 302);
+      assert.equal(response.header.location, `/videos/${video._id}`);
+
+    });
+  });
+
+  describe('when update is invalid', () => {
+
+    it('does not save', async () => {
+
+      const invalidVideoToCreate = {
+        title: '',
+        description: 'test description',
+        url: 'testurl.com'
+      };
+
+      const response = await request(app)
+        .post('/updates')
+        .type('form')
+        .send(invalidVideoToCreate);
+
+      const allVideos = await Video.find({});
+      assert.equal(allVideos.length, 0);
+    });
+
+    it('responds with a 400 status', async () => {
+
+      const invalidVideoToCreate = {
+        title: '',
+        description: 'test description',
+        url: 'testurl.com'
+      };
+
+      const response = await request(app)
+        .post('/updates')
+        .type('form')
+        .send(invalidVideoToCreate);
+
+      const allVideos = await Video.find({});
+      assert.equal(allVideos.length, 0);
+      assert.equal(response.status, 400);
+
+    });
+
+    it('renders the edit form', async () => {
+
+      const invalidVideoToCreate = {
+        title: '',
+        description: 'test description',
+        url: 'testurl.com'
+      };
+
+      const response = await request(app)
+        .post('/updates')
+        .type('form')
+        .send(invalidVideoToCreate);
+
+      assert.include(parseTextFromHTML(response.text, 'form'), 'required');
     });
   });
 
