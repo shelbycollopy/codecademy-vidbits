@@ -1,7 +1,7 @@
 <div class="contents-container">
   <h1>Save a video<h1>
   <form method="post" action="/videos" id="addVideo">
-
+    
     <label for="url">Url</label>
     <input name="url" id="url-input" value="{{newVideo.url}}"/>
     {{#with newVideo.errors.url as |error|}}

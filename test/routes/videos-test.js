@@ -12,32 +12,24 @@ const {
   seedItemToDatabase
 } = require('../test-utils');
 
-
-describe('GET /videos', () => {
+describe('Server: GET', () => {
 
   beforeEach(connectDatabaseAndDropData);
 
   afterEach(disconnectDatabase);
 
-  it('renders a video with a title', async () => {
-    const video = await seedItemToDatabase();
+  describe('GET /videos', () => {
+    it('renders a video with a title', async () => {
+      const video = await seedItemToDatabase();
 
-    const response = await request(app)
-    .get(`/videos`);
+      const response = await request(app)
+      .get(`/videos`);
 
-    assert.include(parseTextFromHTML(response.text, '.video-title'), video.title);
+      assert.include(parseTextFromHTML(response.text, '.video-title'), video.title);
+    });
   });
-});
 
-
-describe('GET /videos/:id', () => {
-
-  beforeEach(connectDatabaseAndDropData);
-
-  afterEach(disconnectDatabase);
-
-  describe('GET', () => {
-
+  describe('/videos/:id', () => {
     it('renders single video', async () => {
 
       const video = await seedItemToDatabase();
@@ -45,62 +37,31 @@ describe('GET /videos/:id', () => {
         .get(`/videos/${video._id}`);
 
       assert.equal(parseTextFromHTML(response.text, '.video-title'), video.title);
-      
+
     });
   });
-});
 
-describe('GET /videos/:id/edit', () => {
-
-  beforeEach(connectDatabaseAndDropData);
-
-  afterEach(disconnectDatabase);
-
-  describe('GET', () => {
-
+  describe('GET /videos/:id/edit', () => {
     it('renders a form to edit video', async () => {
 
       const video = await seedItemToDatabase();
       const response = await request(app)
         .get(`/videos/${video._id}/edit`);
 
-      assert.equal(parseTextFromHTML(response.text, '#video-title'), video.title);
+      assert.equal(parseTextFromHTML(response.text, '#title-input'), video.title);
 
     });
   });
+
 });
 
-describe('POST', () => {
+describe('Server: POST', () => {
 
   beforeEach(connectDatabaseAndDropData);
 
   afterEach(disconnectDatabase);
 
-  describe('/videos/:id/updates', () => {
-
-    // it('updates the record', async () => {
-    //
-    // })
-    //
-    // it('redirects to the show pages', async () => {
-    //
-    // })
-
-  });
-
-  describe('when the record is invalid', async () => {
-
-  });
-});
-
-
-describe('POST', () => {
-
-  beforeEach(connectDatabaseAndDropData);
-
-  afterEach(disconnectDatabase);
-
-  describe('/videos', () => {
+  describe('POST /videos', () => {
 
     it('returns a 302 status code', async () => {
 
@@ -266,6 +227,25 @@ describe('POST', () => {
       assert.include(parseTextFromHTML(response.text, '#title-input'), invalidVideoToCreate.url);
 
     });
-
   });
+
+  describe('POST /videos/:id/delete', () => {
+
+    it('removes the record', async () => {
+      const video = await seedItemToDatabase();
+      const response = await request(app)
+             .get(`/videos/${video._id}/delete`);
+
+      assert.equal(response.status, 404);
+    })
+
+    it('redirects to the landing page', async () => {
+      const video = await seedItemToDatabase();
+      const response = await request(app)
+             .get(`/videos/${video._id}/delete`);
+
+      assert.equal(response.headers.location, '/');
+    });
+  });
+
 });

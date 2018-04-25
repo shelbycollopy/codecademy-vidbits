@@ -15,6 +15,11 @@ router.get('/videos/:id', async (req, res, next) => {
   res.render('videos/show', { video });
 });
 
+router.get('/videos/:id/edit', async (req, res, next) => {
+  const video = await Video.findById(req.params.id);
+  res.render('videos/edit', { video });
+});
+
 router.post('/videos', async (req, res, next) => {
 
   const { title, description, url } = req.body;
@@ -29,6 +34,11 @@ router.post('/videos', async (req, res, next) => {
     res.status(302).redirect(`${video._id}`)
   }
 
+});
+
+router.post('/videos/:id/delete', async (req, res, next) => {
+  const video = await Video.deleteOne(req.params.id);
+  res.redirect('/videos');
 });
 
 module.exports = router;

@@ -1,0 +1,32 @@
+<div class="contents-container">
+  <h1>Edit a video<h1>
+  <form method="post" action="/updates" id="updateVideo">
+
+  fdfd
+{{video}}
+dfd
+    <div>
+      <a href="/videos/{{video._id}}/edit" id="edit" class="input-button">Edit</a>
+    </div>
+
+    <label for="url">Url</label>
+    <input name="url" id="url-input" value="{{video.url}}"/>
+    {{#with video.errors.url as |error|}}
+    <div class="error">{{error.message}}</div>
+    {{/with}}
+
+    <label for="title">Title</label>
+    <input name="title" id="title-input" value="{{video.title}}" />
+    {{#with video.errors.title as |error|}}
+    <div class="error">{{error.message}}</div>
+    {{/with}}
+
+    <label for="description">Description</label>
+    <textarea name="description" id="description-input" class="video-description">{{video.description}}</textarea>
+    {{#with video.errors.description as |error|}}
+    <div class="error">{{error.message}}</div>
+    {{/with}}
+
+    <input type="submit" id="submit-button" class="input-button" value="Save">
+  </form>
+</div>

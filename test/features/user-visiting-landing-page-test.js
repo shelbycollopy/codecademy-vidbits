@@ -1,7 +1,6 @@
 const {assert} = require('chai');
 const {buildVideoObject} = require('../test-utils');
 
-
 describe('User visits landing page', () => {
   describe('with no existing videos', () => {
     it('shows no videos', () => {
