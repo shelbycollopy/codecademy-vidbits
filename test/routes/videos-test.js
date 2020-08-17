@@ -87,7 +87,7 @@ describe('Server: POST', () => {
       const videoCreated = await Video.findOne(videoToCreate);
 
       assert.equal(response.status, 302);
-      assert.equal(response.headers.location, `${videoCreated._id}`);
+      assert.equal(response.headers.location, `videos/${videoCreated._id}`);
     });
 
     it('saves a video document', async () => {
