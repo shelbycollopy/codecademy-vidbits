@@ -1,7 +1,7 @@
 # codecademy-vidbits
 
 ### NOTE 
-Edit and delete tests/functionality are still in progress. I am missing something... and I think it's sleep. 
+Looks like MongoDB needs an update to run on current MacOS.
 
 ### Install Dependencies
 ``` npm install ```
